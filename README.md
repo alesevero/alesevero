@@ -7,6 +7,8 @@ I’m a 29 years old software engineer with more than nine years of work experie
 
 In addition to that, sharing and contributing is an intrinsic part of me, whereby I’m constantly looking forward to build rich experiences for us as a community.
 
+Ubuntu.
+
 ## Technologies
 ![Java Badge](https://img.shields.io/badge/Java-%23007396.svg?&style=flat&logo=java&logoColor=white)
 ![Javascript Badge](https://img.shields.io/badge/Javascript-%23F7DF1E.svg?&style=flat&logo=javascript&logoColor=black)
