@@ -3,7 +3,7 @@
 My name is **Alexandre**, and I'm currently working with crazy talented folks **@ Collective Health** 👨🏻‍💻
 
 ## Who Am I
-I’m a 29 years old software engineer with more than nine years of work experience. I've worked with backend services, be them microservices or monolithic applications using Java and Spring, or Javascript and Typescript with Node.js. Also, I have experience working with frontend applications using AngularJS, React and React Native for mobile apps.
+I’m a senior software engineer with more than nine years of work experience. I've worked with backend services, be them microservices or monolithic applications using Java and Spring, or Javascript and Typescript with Node.js. Also, I have experience working with frontend applications using AngularJS, React and React Native for mobile apps.
 
 In addition to that, sharing and contributing is an intrinsic part of me, whereby I’m constantly looking forward to build rich experiences for us as a community.
 
