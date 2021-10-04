@@ -1,6 +1,6 @@
 ### Hi there! Glad you're here! 👋
 
-My name is **Alexandre**, and I'm currently working with crazy talented folks **@ Collective Health** 👨🏻‍💻
+My name is **Alexandre**, and I'm currently working with crazy talented folks **@ Thinkific** 👨🏻‍💻
 
 ## Who Am I
 I’m a senior software engineer with more than nine years of work experience. I've worked with backend services, be them microservices or monolithic applications using Java and Spring, or Javascript and Typescript with Node.js. Also, I have experience working with frontend applications using AngularJS, React and React Native for mobile apps.
