@@ -1,7 +1,12 @@
 <nav class="mb-10 text-sm">
     <a
         href="{{ route('home') }}"
-        class="text-[#8a8a86] hover:text-inherit hover:underline hover:underline-offset-4"
+        class="text-[#8a8a86] hover:underline hover:underline-offset-4 md:hidden"
+        wire:navigate
+    >A|</a>
+    <a
+        href="{{ route('home') }}"
+        class="hidden text-[#8a8a86] hover:text-inherit hover:underline hover:underline-offset-4 md:inline"
         wire:navigate
     >Alexandre Severo</a>
     <span class="mx-2 text-[#8a8a86]">&middot;</span>
