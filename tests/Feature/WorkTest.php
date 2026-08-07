@@ -17,22 +17,49 @@ afterEach(function () {
 test('shows an empty state for both sections with no entries', function () {
     $this->get(route('work.index'))
         ->assertOk()
-        ->assertSeeInOrder(['Work', 'Nothing here yet.', 'Products', 'Nothing here yet.']);
+        ->assertSeeInOrder(['Work', 'Nothing here yet.', 'Projects', 'Nothing here yet.']);
 });
 
-test('lists jobs and products in their own sections', function () {
-    File::put("{$this->workPath}/musora.yaml", "type: job\nname: Musora\nrole: Senior Software Engineer\nstart: 2024-01-01");
-    File::put("{$this->workPath}/soundcheck.yaml", "type: product\nname: Soundcheck\nurl: https://soundcheck.sh\nstart: 2026-01-01");
+test('lists jobs and projects in their own sections', function () {
+    File::put("{$this->workPath}/work.yaml", <<<'YAML'
+    - name: Musora
+      role: Senior Software Engineer
+      start: 2024-01-01
+    YAML);
+    File::put("{$this->workPath}/projects.yaml", <<<'YAML'
+    - name: Soundcheck
+      url: https://soundcheck.sh
+      start: 2026-01-01
+    YAML);
 
     $this->get(route('work.index'))
         ->assertOk()
-        ->assertSeeInOrder(['Work', 'Musora', 'Senior Software Engineer', 'Products', 'Soundcheck'])
+        ->assertSeeInOrder(['Work', 'Musora', 'Senior Software Engineer', 'Projects', 'Soundcheck'])
         ->assertSee('https://soundcheck.sh', false);
 });
 
+test('a list can hold multiple entries per file', function () {
+    File::put("{$this->workPath}/work.yaml", <<<'YAML'
+    - name: Company A
+      start: 2020-01-01
+    - name: Company B
+      start: 2022-01-01
+    YAML);
+
+    $this->get(route('work.index'))
+        ->assertOk()
+        ->assertSee('Company A')
+        ->assertSee('Company B');
+});
+
 test('an ongoing job shows present, a finished one shows its end month and year', function () {
-    File::put("{$this->workPath}/current.yaml", "type: job\nname: Current Co\nstart: 2024-06-05");
-    File::put("{$this->workPath}/past.yaml", "type: job\nname: Past Co\nstart: 2020-01-01\nend: 2023-03-01");
+    File::put("{$this->workPath}/work.yaml", <<<'YAML'
+    - name: Current Co
+      start: 2024-06-05
+    - name: Past Co
+      start: 2020-01-01
+      end: 2023-03-01
+    YAML);
 
     $this->get(route('work.index'))
         ->assertOk()
@@ -40,10 +67,36 @@ test('an ongoing job shows present, a finished one shows its end month and year'
         ->assertSee('January 2020–March 2023', false);
 });
 
+test('intro copy links Musora, Sunup Studios, and Soundcheck to their sites', function () {
+    $this->get(route('work.index'))
+        ->assertOk()
+        ->assertSee('https://musora.com', false)
+        ->assertSee('https://sunupstudios.ca', false)
+        ->assertSee('https://soundcheck.sh', false);
+});
+
 test('ongoing jobs sort before finished ones, regardless of start date', function () {
-    File::put("{$this->workPath}/older-ongoing.yaml", "type: job\nname: Older Ongoing\nstart: 2020-01-01");
-    File::put("{$this->workPath}/newer-finished.yaml", "type: job\nname: Newer Finished\nstart: 2023-01-01\nend: 2024-01-01");
+    File::put("{$this->workPath}/work.yaml", <<<'YAML'
+    - name: Older Ongoing
+      start: 2020-01-01
+    - name: Newer Finished
+      start: 2023-01-01
+      end: 2024-01-01
+    YAML);
 
     $this->get(route('work.index'))
         ->assertSeeInOrder(['Older Ongoing', 'Newer Finished']);
+});
+
+test('a primary entry sorts first even if a later-started entry is also ongoing', function () {
+    File::put("{$this->workPath}/work.yaml", <<<'YAML'
+    - name: Side Gig
+      start: 2026-01-01
+    - name: Main Gig
+      start: 2020-01-01
+      primary: true
+    YAML);
+
+    $this->get(route('work.index'))
+        ->assertSeeInOrder(['Main Gig', 'Side Gig']);
 });

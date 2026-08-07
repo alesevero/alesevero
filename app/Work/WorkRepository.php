@@ -2,13 +2,16 @@
 
 namespace App\Work;
 
+use Illuminate\Support\Str;
 use Symfony\Component\Yaml\Yaml;
 
 class WorkRepository
 {
     /**
-     * All entries, jobs and products alike. Ongoing entries (no end date) sort first,
-     * then by start date descending.
+     * All entries, jobs and projects alike. A `primary: true` entry always sorts first
+     * (the main gig, regardless of when a side project started); otherwise ongoing entries
+     * sort before finished ones, then by start date descending. Jobs live in work.yaml,
+     * projects in projects.yaml — each a YAML list of entries, not one file per entry.
      *
      * @return array<int, WorkEntry>
      */
@@ -17,11 +20,16 @@ class WorkRepository
         // Cache plain arrays, not WorkEntry objects: readonly properties can't survive
         // the default unserialize() (it bypasses the constructor), which corrupts the object.
         $rows = cache()->remember('work.all', now()->addDay(), function (): array {
-            $files = glob(config('content.work_path').'/*.yaml') ?: [];
-
-            $entries = array_map($this->parse(...), $files);
+            $entries = [
+                ...$this->parseFile('work.yaml', WorkEntryType::Job),
+                ...$this->parseFile('projects.yaml', WorkEntryType::Project),
+            ];
 
             usort($entries, function (WorkEntry $a, WorkEntry $b): int {
+                if ($a->primary !== $b->primary) {
+                    return $a->primary ? -1 : 1;
+                }
+
                 if ($a->isOngoing() !== $b->isOngoing()) {
                     return $a->isOngoing() ? -1 : 1;
                 }
@@ -46,25 +54,44 @@ class WorkRepository
     /**
      * @return array<int, WorkEntry>
      */
-    public function products(): array
+    public function projects(): array
     {
-        return array_values(array_filter($this->all(), fn (WorkEntry $entry): bool => $entry->type === WorkEntryType::Product));
+        return array_values(array_filter($this->all(), fn (WorkEntry $entry): bool => $entry->type === WorkEntryType::Project));
     }
 
-    private function parse(string $path): WorkEntry
+    /**
+     * @return array<int, WorkEntry>
+     */
+    private function parseFile(string $filename, WorkEntryType $type): array
     {
-        $slug = pathinfo($path, PATHINFO_FILENAME);
-        $frontMatter = Yaml::parseFile($path) ?? [];
+        $path = config('content.work_path').'/'.$filename;
+
+        if (! file_exists($path)) {
+            return [];
+        }
+
+        $rows = Yaml::parseFile($path) ?? [];
+
+        return array_map(fn (array $row): WorkEntry => $this->parseEntry($row, $type), $rows);
+    }
+
+    /**
+     * @param  array<string, mixed>  $row
+     */
+    private function parseEntry(array $row, WorkEntryType $type): WorkEntry
+    {
+        $name = $row['name'] ?? 'Untitled';
 
         return new WorkEntry(
-            slug: $slug,
-            type: WorkEntryType::from($frontMatter['type'] ?? 'job'),
-            name: $frontMatter['name'] ?? $slug,
-            role: $frontMatter['role'] ?? null,
-            description: $frontMatter['description'] ?? null,
-            url: $frontMatter['url'] ?? null,
-            start: $this->toDate($frontMatter['start'] ?? 'now'),
-            end: isset($frontMatter['end']) ? $this->toDate($frontMatter['end']) : null,
+            slug: Str::slug($name),
+            type: $type,
+            name: $name,
+            role: $row['role'] ?? null,
+            description: $row['description'] ?? null,
+            url: $row['url'] ?? null,
+            start: $this->toDate($row['start'] ?? 'now'),
+            end: isset($row['end']) ? $this->toDate($row['end']) : null,
+            primary: (bool) ($row['primary'] ?? false),
         );
     }
 
@@ -91,6 +118,7 @@ class WorkRepository
             'url' => $entry->url,
             'start' => $entry->start->format(\DateTimeInterface::ATOM),
             'end' => $entry->end?->format(\DateTimeInterface::ATOM),
+            'primary' => $entry->primary,
         ];
     }
 
@@ -108,6 +136,7 @@ class WorkRepository
             url: $row['url'],
             start: new \DateTimeImmutable($row['start']),
             end: $row['end'] !== null ? new \DateTimeImmutable($row['end']) : null,
+            primary: $row['primary'],
         );
     }
 }

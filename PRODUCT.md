@@ -23,16 +23,19 @@ No fixed editorial niche — writing and photography are an open personal log ("
 Content is authored as files, not through an admin UI:
 - Articles: markdown files with YAML frontmatter in `resources/articles/*.md` (supports `draft: true` and `external_url` for pieces published elsewhere).
 - Photos: image files in `public/images/photos/`, each with a YAML sidecar in `resources/photos/*.yaml` (title, date, image path, alt, caption).
+- Work: two YAML list files, `resources/work/work.yaml` and `resources/work/projects.yaml` (each a list of entries — add a new job/project by adding a list item, not a new file).
 No database-backed content; the content path is configurable (`config/content.php`) so tests never touch real content directories.
 
 ## Capabilities and Constraints
 
 - Stack: Laravel + Livewire 4 (Flux UI components), Tailwind. No React/Inertia (migrated away from it).
-- Full-page Livewire components for Home (`/`), Writing index/show (`/writing`, `/writing/{slug}`), Photos (`/photos`), About (`/about`).
-- Drafts are hidden from the public unless viewing locally or authenticated.
+- Full-page Livewire components for Home (`/`), Writing index/show (`/writing`, `/writing/{slug}`), Photos (`/photos`), Work (`/work`), About (`/about`).
+- Drafts are hidden from the public unless viewing locally or authenticated. Note: authentication is currently disabled (see below), so in production this reduces to local-only.
 - External articles (`external_url` set) link straight out and 404 on their own `/writing/{slug}` route.
 - No comments, no CMS, no image upload flow — content additions are manual file drops.
-- Work/professional section (Musora role, Sunup Studios products) not yet built — currently only captured as product truth here, no surface exists yet.
+- Work/professional section shipped: `/work` lists jobs and projects from two YAML list files, `resources/work/work.yaml` and `resources/work/projects.yaml` (each a list of entries, not one file per entry) — currently Musora and Sunup Studios under Work, Soundcheck under Projects.
+- Authentication (Fortify + Passkeys) is installed but not wired up — routes are explicitly disabled (`Fortify::ignoreRoutes()`, `Passkeys::ignoreRoutes()`) since the site has no current need for login/registration/settings. Easy to re-enable later; the packages and actions are untouched.
+- Custom error pages exist for 403/404/419/429/500/503 (`resources/views/errors/*.blade.php`), self-contained (no Livewire dependency).
 
 ## Brand Commitments
 

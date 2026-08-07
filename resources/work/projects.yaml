@@ -1,0 +1,5 @@
+# One list, one entry per project. Add a new one by adding another "- name: ..." item.
+- name: Soundcheck
+  description: The simplest way to manage your software release lifecycle.
+  url: https://soundcheck.sh
+  start: 2026-07-01

@@ -76,7 +76,7 @@
       "name": "Work Entry Row",
       "kind": "custom",
       "refersTo": "work-entry",
-      "description": "One row in the Work or Products section on /work. Two lines: name (+ role, whisper-gray) on the first, description + date range (whisper-gray, middot-separated) on the second. Ongoing entries read 'start–present'.",
+      "description": "One row in the Work or Projects section on /work. Two lines: name (+ role, whisper-gray) on the first, description + date range (whisper-gray, middot-separated) on the second. Ongoing entries read 'start–present'.",
       "html": "<li class=\"ds-work-row\"><p class=\"ds-work-name\"><a href=\"#\">Musora</a> <span class=\"ds-work-role\">— Senior Software Engineer</span></p><p class=\"ds-work-meta\">Edit this description directly. &middot; 2024–present</p></li>",
       "css": ".ds-work-row { list-style: none; } .ds-work-name { font-size: 18px; } .ds-work-name a { color: #1b1b18; text-decoration: none; } .ds-work-name a:hover { text-decoration: underline; text-underline-offset: 4px; } .ds-work-role { color: #8a8a86; } .ds-work-meta { font-size: 14px; color: #8a8a86; }"
     }

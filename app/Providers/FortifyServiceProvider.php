@@ -18,7 +18,9 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Auth isn't needed yet — Fortify stays installed (draft-content gating still
+        // checks auth()->check() as a fallback) but registers no routes for now.
+        Fortify::ignoreRoutes();
     }
 
     /**

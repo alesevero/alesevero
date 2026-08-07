@@ -132,7 +132,11 @@ No radius anywhere (`rounded: none` — effectively `0px` on every element, incl
 - **Homepage feed:** merges published articles and photo projects into one reverse-chronological list — not articles-only. Each row is a link to the article or project, followed by a whisper-gray secondary line: a plain-text type tag ("Writing" or "Photography" — text, never a colored chip or icon, per The Flat Ground / no-badges rule) and, middot-separated, the article's excerpt or the project's photo count ("Photography · 4 photos").
 
 ### Work entry (`/work`)
-Two independent sections, Work then Products, each its own heading (list-item size, 22px, no underline — it's a label, not a link) and its own list using the same `list-none space-y-6` rhythm as the Lists component above, with a two-line row instead of one: name (+ role, whisper-gray, inline) on the first line, description + date range (whisper-gray, middot-separated) on the second. Dates render as month + year ("June 2023"), not a bare year. An ongoing entry (`end: null`) reads "June 2023–present"; a finished one reads "June 2023–March 2024". Each section gets its own independent "Nothing here yet." empty state — one section having entries doesn't imply the other must.
+The page opens with a short prose intro (Body role, same `max-w-[64ch] text-lg leading-[1.8]` treatment as About) before either list — real first-person copy about how the person works, not boilerplate. A standalone one-line question in it ("Can this be simpler?") gets its own paragraph for emphasis, but no different weight, size, or color than the surrounding prose — The No-Weight Rule holds even for the most quotable line on the page; separation *is* the emphasis. Company/product mentions inline in the prose (Musora, Sunup Studios, Soundcheck) link out and carry `underline` at rest, same as Article body copy — links embedded in running text need a visible affordance the reader can't infer from position, unlike a list row or nav item, which stay underline-on-hover-only because the position itself signals "clickable."
+
+Below the intro: two independent sections, Work then Projects, each its own heading (list-item size, 22px, no underline — it's a label, not a link) and its own list using the same `list-none space-y-6` rhythm as the Lists component above, with a two-line row instead of one: name (+ role, whisper-gray, inline) on the first line, description + date range (whisper-gray, middot-separated) on the second. Dates render as month + year ("June 2023"), not a bare year. An ongoing entry (`end: null`) reads "June 2023–present"; a finished one reads "June 2023–March 2024". Each section gets its own independent "Nothing here yet." empty state — one section having entries doesn't imply the other must.
+
+Sort order within a section: a `primary: true` entry always comes first — the main gig stays on top even if a side project's `start` date is later — then ongoing entries before finished ones, then by `start` descending. `primary` exists because date-based sorting alone can't express "this one is definitionally the top entry regardless of when the others started."
 
 ### Photo grid
 Photography is organized as projects, not a flat photo stream: `/photos` lists projects, `/photos/{slug}` shows one project's photos. Both levels reuse the same grid.
@@ -159,12 +163,15 @@ Home's intro sentence used to carry its own copy of these links in narrative for
 ### Named Rules
 **The One Partial Rule.** Site-wide navigation lives in exactly one file (`partials/site-nav.blade.php`), included by reference everywhere it's needed. If a page needs a different link set, that's a sign the page's information architecture changed, not a reason to fork the partial.
 
+### Error pages (`resources/views/errors/*.blade.php`)
+403/404/419/429/500/503 (plus `4xx`/`5xx` wildcards for anything else) share one layout (`errors/layout.blade.php`): the same shell, the same site-nav, a short plain-language headline (Intro-role, 28px — "This one got lost.", never the HTTP name like "Not Found"), and an optional longer description below it. No visible status code — the headline carries the meaning, not the number. The two lines are typographically distinct on purpose: headline at Intro size in ink, description at Body size (`text-lg`) in whisper gray with a wider measure (`max-w-[48ch]`) — description is optional per page (`@isset`), so a page can ship headline-only. Deliberately self-contained — no Livewire dependency, since a real 500 might originate there; a plain Blade view degrades independently of whatever broke. Auth isn't wired up yet, so nothing currently triggers a real 403 in normal use, but the page exists for when it does.
+
 ## Do's and Don'ts
 
 ### Do:
 - **Do** keep every new page inside the single 900px shell — never introduce a page-specific outer width.
 - **Do** use whisper gray (`#8a8a86`) for any secondary/metadata text (dates, captions, counts) — never for primary content or links.
-- **Do** use `hover:underline hover:underline-offset-4` as the only interactive-state treatment for links.
+- **Do** use `hover:underline hover:underline-offset-4` for standalone links (nav, list rows, titles) — position already signals they're clickable. For a link embedded inline in running prose (Article body, Work intro), underline it at rest instead (`[&_a]:underline` on the containing block) — the reader can't infer clickability from position there.
 - **Do** use viewport-relative vertical padding (`vh` units) for page-level rhythm rather than fixed px page margins.
 
 ### Don't:

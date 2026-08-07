@@ -1,0 +1,14 @@
+# One list, one entry per job. Add a new one by adding another "- name: ..." item.
+# `primary: true` pins an entry to the top regardless of date — the main gig.
+- name: Musora
+  role: Senior Back End Engineer
+  description: Working with crazy-talented folks on the future of music education.
+  url: https://musora.com
+  start: 2023-06-05
+  primary: true
+
+- name: Sunup Studios
+  role: Creative Software Engineer
+  description: Simple, useful software. From humans to humans.
+  url: https://sunupstudios.ca
+  start: 2026-07-01

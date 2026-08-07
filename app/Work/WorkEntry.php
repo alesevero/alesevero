@@ -2,12 +2,6 @@
 
 namespace App\Work;
 
-enum WorkEntryType: string
-{
-    case Job = 'job';
-    case Product = 'product';
-}
-
 final readonly class WorkEntry
 {
     public function __construct(
@@ -19,6 +13,7 @@ final readonly class WorkEntry
         public ?string $url,
         public \DateTimeImmutable $start,
         public ?\DateTimeImmutable $end = null,
+        public bool $primary = false,
     ) {}
 
     public function isOngoing(): bool

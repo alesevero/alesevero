@@ -17,7 +17,7 @@ class Index extends Component
 
         return view('livewire.work.index', [
             'jobs' => $work->jobs(),
-            'products' => $work->products(),
+            'projects' => $work->projects(),
         ]);
     }
 }

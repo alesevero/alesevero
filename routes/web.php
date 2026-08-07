@@ -20,9 +20,3 @@ Route::livewire('photos/{slug}', PhotosShow::class)->name('photos.show');
 Route::livewire('work', WorkIndex::class)->name('work.index');
 
 Route::livewire('about', About::class)->name('about');
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
-});
-
-require __DIR__.'/settings.php';
