@@ -5,18 +5,14 @@
         <p>Most of my work starts with the same question:</p>
         <p>Can this be simpler?</p>
         <p>
-            At <a href="https://musora.com" target="_blank" rel="noopener">Musora</a>, I work as a Senior Software
+            At <a href="https://musora.com" target="_blank" rel="noopener">Musora</a>, I work as a Senior Backend
             Engineer building and shaping the systems behind online music education — from backend architecture to the
             engineering practices around it.
         </p>
         <p>
             At <a href="https://sunupstudios.ca" target="_blank" rel="noopener">Sunup Studios</a>, I get to explore
-            smaller ideas: independent software built carefully, intentionally, and for humans.
-        </p>
-        <p>
-            And with <a href="https://soundcheck.sh" target="_blank" rel="noopener">Soundcheck</a>, I'm building tools
-            around one of my favorite parts of software development — that moment when something you've been working on
-            is finally ready to go out into the world.
+            smaller ideas: independent software built carefully, intentionally, and for humans. From It,
+            <a href="https://soundcheck.sh" target="_blank" rel="noopener">Soundcheck</a> was born. Many more to come.
         </p>
         <p>
             I care about the invisible parts of software: good boundaries, thoughtful decisions, maintainable systems,
