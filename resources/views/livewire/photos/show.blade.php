@@ -9,8 +9,8 @@
         next() { this.index = (this.index + 1) % this.photos.length; },
     }"
     @keydown.escape.window="open = false"
-    @keydown.arrow-left.window="if (open) prev()"
-    @keydown.arrow-right.window="if (open) next()"
+    @keydown.arrow-left.window="if (open) prev();"
+    @keydown.arrow-right.window="if (open) next();"
 >
     @include('partials.site-nav')
 
@@ -30,7 +30,12 @@
                     class="group block w-full text-left"
                     @click="show({{ $i }})"
                 >
-                    <img src="{{ $photo['url'] }}" alt="{{ $photo['alt'] ?? $title }}" loading="lazy" class="aspect-[4/5] w-full object-cover" />
+                    <img
+                        src="{{ $photo['url'] }}"
+                        alt="{{ $photo['alt'] ?? $title }}"
+                        loading="lazy"
+                        class="aspect-[4/5] w-full object-cover"
+                    />
                     @if ($photo['caption'])
                         <p class="mt-2 text-sm text-[#8a8a86] group-hover:text-inherit">{{ $photo['caption'] }}</p>
                     @endif
@@ -64,11 +69,23 @@
             </template>
 
             <p class="mt-4 max-w-[64ch] text-center text-sm text-[#EDEDEC]" x-text="photos[index]?.caption ?? ''"></p>
-            <p class="mt-1 text-xs text-[#8a8a86]" x-text="(index + 1) + ' / ' + photos.length"></p>
+            <p class="mt-1 text-xs text-[#8a8a86]" x-text="index + 1 + ' / ' + photos.length"></p>
 
             <div class="mt-6 flex gap-8 text-sm text-[#8a8a86]" x-show="photos.length > 1">
-                <button type="button" class="hover:text-[#EDEDEC] hover:underline hover:underline-offset-4" @click="prev()">&larr; Prev</button>
-                <button type="button" class="hover:text-[#EDEDEC] hover:underline hover:underline-offset-4" @click="next()">Next &rarr;</button>
+                <button
+                    type="button"
+                    class="hover:text-[#EDEDEC] hover:underline hover:underline-offset-4"
+                    @click="prev()"
+                >
+                    &larr; Prev
+                </button>
+                <button
+                    type="button"
+                    class="hover:text-[#EDEDEC] hover:underline hover:underline-offset-4"
+                    @click="next()"
+                >
+                    Next &rarr;
+                </button>
             </div>
         </div>
     @endif

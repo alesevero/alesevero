@@ -8,11 +8,20 @@
             @foreach ($articles as $article)
                 <li wire:key="{{ $article->slug }}" class="text-[22px]">
                     @if ($article->isExternal())
-                        <a href="{{ $article->externalUrl }}" target="_blank" rel="noopener" class="hover:underline hover:underline-offset-4">
+                        <a
+                            href="{{ $article->externalUrl }}"
+                            target="_blank"
+                            rel="noopener"
+                            class="hover:underline hover:underline-offset-4"
+                        >
                             {{ $article->title }}
                         </a>
                     @else
-                        <a href="{{ route('articles.show', $article->slug) }}" class="hover:underline hover:underline-offset-4" wire:navigate>
+                        <a
+                            href="{{ route('articles.show', $article->slug) }}"
+                            class="hover:underline hover:underline-offset-4"
+                            wire:navigate
+                        >
                             {{ $article->title }}
                         </a>
                     @endif

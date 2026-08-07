@@ -2,8 +2,8 @@
 <div class="mx-auto min-h-screen max-w-[900px] px-6 py-[12vh] sm:px-12">
     @include('partials.site-nav')
 
-    <p class="mb-[20vh] max-w-[24ch] text-[28px] leading-[1.6] text-wrap-balance">
-         Alexandre Severo. I code, I write, and I take photographs.
+    <p class="text-wrap-balance mb-[20vh] max-w-[24ch] text-[28px] leading-[1.6]">
+        Alexandre Severo. I code, I write, and I take photographs.
     </p>
 
     @if (! empty($feed))
@@ -11,7 +11,12 @@
             @foreach ($feed as $item)
                 <li wire:key="{{ $item['href'] }}" class="text-[22px]">
                     @if ($item['external'])
-                        <a href="{{ $item['href'] }}" target="_blank" rel="noopener" class="hover:underline hover:underline-offset-4">
+                        <a
+                            href="{{ $item['href'] }}"
+                            target="_blank"
+                            rel="noopener"
+                            class="hover:underline hover:underline-offset-4"
+                        >
                             {{ $item['title'] }}
                         </a>
                     @else

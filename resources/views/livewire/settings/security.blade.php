@@ -3,7 +3,10 @@
 
     <flux:heading class="sr-only">{{ __('Security settings') }}</flux:heading>
 
-    <x-settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
+    <x-settings.layout
+        :heading="__('Update password')"
+        :subheading="__('Ensure your account is using a long, random password to stay secure')"
+    >
         <form method="POST" wire:submit="updatePassword" class="mt-6 space-y-6">
             <flux:input
                 wire:model="current_password"
@@ -33,18 +36,21 @@
             />
 
             <div class="flex items-center gap-4">
-                <flux:button variant="primary" type="submit" data-test="update-password-button">{{ __('Save') }}</flux:button>
+                <flux:button
+                    variant="primary"
+                    type="submit"
+                    data-test="update-password-button"
+                >{{ __('Save') }}</flux:button>
             </div>
         </form>
-
 
         @if ($canManagePasskeys)
             <section class="mt-12">
                 <flux:heading>{{ __('Passkeys') }}</flux:heading>
                 <flux:subheading>{{ __('Manage your passkeys for passwordless sign-in') }}</flux:subheading>
 
-                <div class="mt-6 flex flex-col w-full mx-auto space-y-6 text-sm" wire:cloak>
-                    <div class="border rounded-lg border-zinc-200 dark:border-zinc-700 overflow-hidden">
+                <div class="mx-auto mt-6 flex w-full flex-col space-y-6 text-sm" wire:cloak>
+                    <div class="overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-700">
                         @forelse ($passkeys as $passkey)
                             <div class="flex items-center justify-between p-4 {{ ! $loop->last ? 'border-b border-zinc-200 dark:border-zinc-700' : '' }}">
                                 <div class="flex items-center gap-4">
@@ -58,10 +64,10 @@
                                                 <flux:badge size="sm">{{ $passkey['authenticator'] }}</flux:badge>
                                             @endif
                                         </div>
-                                        <p class="text-zinc-500 dark:text-zinc-400 text-xs">
+                                        <p class="text-xs text-zinc-500 dark:text-zinc-400">
                                             {{ __('Added :time', ['time' => $passkey['created_at_diff']]) }}
                                             @if ($passkey['last_used_at_diff'])
-                                                <span class="opacity-50 mx-1">/</span>
+                                                <span class="mx-1 opacity-50">/</span>
                                                 {{ __('Last used :time', ['time' => $passkey['last_used_at_diff']]) }}
                                             @endif
                                         </p>
@@ -74,7 +80,7 @@
                                     icon="trash"
                                     icon:variant="outline"
                                     wire:click="confirmDelete({{ $passkey['id'] }})"
-                                    class="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50"
+                                    class="text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/50"
                                 />
                             </div>
                         @empty
@@ -108,19 +114,9 @@
                 </flux:text>
             </div>
 
-            <div class="flex gap-3 justify-end">
-                <flux:button
-                    variant="outline"
-                    wire:click="closeDeleteModal"
-                >
-                    {{ __('Cancel') }}
-                </flux:button>
-                <flux:button
-                    variant="danger"
-                    wire:click="deletePasskey"
-                >
-                    {{ __('Remove passkey') }}
-                </flux:button>
+            <div class="flex justify-end gap-3">
+                <flux:button variant="outline" wire:click="closeDeleteModal"> {{ __('Cancel') }} </flux:button>
+                <flux:button variant="danger" wire:click="deletePasskey"> {{ __('Remove passkey') }} </flux:button>
             </div>
         </div>
     </flux:modal>
