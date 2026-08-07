@@ -1,4 +1,6 @@
-<div class="mx-auto min-h-screen max-w-[1100px] px-6 py-[12vh] sm:px-12">
+<div class="mx-auto min-h-screen max-w-[900px] px-6 py-[12vh] sm:px-12">
+    @include('partials.site-nav')
+
     @if (empty($projects))
         <p class="text-lg text-[#8a8a86]">Nothing here yet.</p>
     @else

@@ -75,3 +75,18 @@ test('show renders an empty state for a project with no photos', function () {
         ->assertOk()
         ->assertSee('No photos yet.');
 });
+
+test('show opens photos in an in-page lightbox instead of a new tab', function () {
+    File::put("{$this->photosPath}/lisbon.yaml", <<<'YAML'
+    title: Lisbon
+    date: 2026-07-02
+    photos:
+      - image: images/photos/alfama.jpg
+    YAML);
+
+    $this->get(route('photos.show', 'lisbon'))
+        ->assertOk()
+        ->assertDontSee('target="_blank"', false)
+        ->assertSee('x-data', false)
+        ->assertSee('Close', false);
+});

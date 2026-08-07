@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-06T00:00:00Z",
+  "generatedAt": "2026-08-07T00:00:00Z",
   "title": "Design System: alesevero",
   "extensions": {
     "colorMeta": {
@@ -13,7 +13,7 @@
     "typographyMeta": {
       "intro": { "displayName": "Intro", "purpose": "Homepage opening line only — name plus the three section links." },
       "title": { "displayName": "Title", "purpose": "Article show-page h1." },
-      "list-item": { "displayName": "List Item", "purpose": "Every list row: homepage recent list, Writing index rows." },
+      "list-item": { "displayName": "List Item", "purpose": "Every list row: homepage feed, Writing index rows." },
       "body": { "displayName": "Body", "purpose": "Article body copy, About page paragraph." },
       "label": { "displayName": "Label", "purpose": "Dates, excerpts, captions — always whisper gray." }
     },
@@ -36,15 +36,15 @@
       "name": "Article List Row",
       "kind": "custom",
       "refersTo": "list-item",
-      "description": "One row in the homepage recent-articles list or the Writing index. Title link plus an optional inline whisper-gray excerpt.",
-      "html": "<li class=\"ds-list-row\"><a href=\"#\" class=\"ds-link\">On leaving a job I was good at</a><span class=\"ds-excerpt\"> — Notes on quitting well.</span></li>",
+      "description": "One row in the homepage feed (articles and photo projects merged, reverse-chron) or the Writing index. Title link plus an inline whisper-gray secondary line: a plain-text type tag (homepage only) and, middot-separated, an excerpt or photo count.",
+      "html": "<li class=\"ds-list-row\"><a href=\"#\" class=\"ds-link\">On leaving a job I was good at</a><span class=\"ds-excerpt\">Writing &middot; Notes on quitting well.</span></li>",
       "css": ".ds-list-row { list-style: none; font-size: 22px; line-height: 1.4; } .ds-excerpt { color: #8a8a86; font-size: 16px; margin-left: 12px; }"
     },
     {
       "name": "Photo Grid Tile",
       "kind": "card",
       "refersTo": "photo-tile",
-      "description": "One tile in a project's photo grid (/photos/{slug}): full-bleed cropped image, optional whisper-gray caption that brightens to ink on hover, links straight to the full image.",
+      "description": "One tile in a project's photo grid (/photos/{slug}): full-bleed cropped image, optional whisper-gray caption that brightens to ink on hover, opens the photo in the in-page Lightbox on click.",
       "html": "<a href=\"#\" class=\"ds-photo-tile\"><img class=\"ds-photo-img\" src=\"\" alt=\"\" /><p class=\"ds-photo-caption\">Lisbon, July</p></a>",
       "css": ".ds-photo-tile { display: block; text-decoration: none; } .ds-photo-img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 0; } .ds-photo-caption { margin-top: 8px; font-size: 14px; color: #8a8a86; transition: color 0.15s; } .ds-photo-tile:hover .ds-photo-caption { color: #1b1b18; }"
     },
@@ -55,6 +55,30 @@
       "description": "One card in the Photos index (/photos): cover image, title that underlines on hover, and a whisper-gray photo count below it. Links to the project's own page.",
       "html": "<a href=\"#\" class=\"ds-project-card\"><img class=\"ds-project-cover\" src=\"\" alt=\"\" /><p class=\"ds-project-title\">Lisbon</p><p class=\"ds-project-count\">4 photos</p></a>",
       "css": ".ds-project-card { display: block; text-decoration: none; color: #1b1b18; } .ds-project-cover { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 0; } .ds-project-title { margin-top: 8px; font-size: 22px; } .ds-project-card:hover .ds-project-title { text-decoration: underline; text-underline-offset: 4px; } .ds-project-count { font-size: 14px; color: #8a8a86; }"
+    },
+    {
+      "name": "Lightbox",
+      "kind": "custom",
+      "refersTo": "lightbox",
+      "description": "Full-screen exhibition overlay opened by clicking a Photo Grid Tile. The one signature, theme-independent surface in the system — always dark regardless of light/dark mode. Centered contained image, caption in full contrast (not whisper), N/total counter, text-only Prev/Next controls, Close button. Escape, backdrop click, or Close all dismiss it. 200ms opacity fade, disabled under prefers-reduced-motion.",
+      "html": "<div class=\"ds-lightbox\"><button class=\"ds-lightbox-close\">Close</button><img class=\"ds-lightbox-img\" src=\"\" alt=\"\" /><p class=\"ds-lightbox-caption\">Alfama stairwell</p><p class=\"ds-lightbox-counter\">2 / 4</p><div class=\"ds-lightbox-nav\"><button class=\"ds-lightbox-btn\">&larr; Prev</button><button class=\"ds-lightbox-btn\">Next &rarr;</button></div></div>",
+      "css": ".ds-lightbox { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(10,10,10,0.95); padding: 24px; } .ds-lightbox-close { position: absolute; top: 24px; right: 24px; font-size: 14px; color: #8a8a86; background: none; border: none; } .ds-lightbox-close:hover, .ds-lightbox-close:focus-visible { color: #EDEDEC; text-decoration: underline; text-underline-offset: 4px; } .ds-lightbox-img { max-height: 78vh; max-width: 90vw; object-fit: contain; } .ds-lightbox-caption { margin-top: 16px; max-width: 64ch; text-align: center; font-size: 14px; color: #EDEDEC; } .ds-lightbox-counter { margin-top: 4px; font-size: 12px; color: #8a8a86; } .ds-lightbox-nav { margin-top: 24px; display: flex; gap: 32px; } .ds-lightbox-btn { font-size: 14px; color: #8a8a86; background: none; border: none; } .ds-lightbox-btn:hover, .ds-lightbox-btn:focus-visible { color: #EDEDEC; text-decoration: underline; text-underline-offset: 4px; }"
+    },
+    {
+      "name": "Site Nav",
+      "kind": "nav",
+      "refersTo": "site-nav",
+      "description": "The single reusable navigation partial (partials/site-nav.blade.php), included at the top of every page, Home included. Five plain inline links separated by a whisper-gray middot — no box, no border, no sticky position, scrolls away with the page like any other text line.",
+      "html": "<nav class=\"ds-site-nav\"><a class=\"ds-site-nav-name\" href=\"#\">Alexandre Severo</a><span class=\"ds-site-nav-sep\">&middot;</span><a href=\"#\">Writing</a><span class=\"ds-site-nav-sep\">&middot;</span><a href=\"#\">Photographs</a><span class=\"ds-site-nav-sep\">&middot;</span><a href=\"#\">Work</a><span class=\"ds-site-nav-sep\">&middot;</span><a href=\"#\">About</a></nav>",
+      "css": ".ds-site-nav { font-size: 14px; margin-bottom: 40px; } .ds-site-nav a { color: #1b1b18; text-decoration: none; } .ds-site-nav a:hover, .ds-site-nav a:focus-visible { text-decoration: underline; text-underline-offset: 4px; } .ds-site-nav-name { color: #8a8a86; } .ds-site-nav-name:hover { color: inherit; } .ds-site-nav-sep { color: #8a8a86; margin: 0 8px; }"
+    },
+    {
+      "name": "Work Entry Row",
+      "kind": "custom",
+      "refersTo": "work-entry",
+      "description": "One row in the Work or Products section on /work. Two lines: name (+ role, whisper-gray) on the first, description + date range (whisper-gray, middot-separated) on the second. Ongoing entries read 'start–present'.",
+      "html": "<li class=\"ds-work-row\"><p class=\"ds-work-name\"><a href=\"#\">Musora</a> <span class=\"ds-work-role\">— Senior Software Engineer</span></p><p class=\"ds-work-meta\">Edit this description directly. &middot; 2024–present</p></li>",
+      "css": ".ds-work-row { list-style: none; } .ds-work-name { font-size: 18px; } .ds-work-name a { color: #1b1b18; text-decoration: none; } .ds-work-name a:hover { text-decoration: underline; text-underline-offset: 4px; } .ds-work-role { color: #8a8a86; } .ds-work-meta { font-size: 14px; color: #8a8a86; }"
     }
   ],
   "narrative": {
@@ -68,12 +92,14 @@
       "Links are the only interactive affordance: plain text, underline only on hover/focus"
     ],
     "rules": [
-      { "name": "The One Ink Rule", "body": "There is no accent color anywhere in the system. Every visual distinction is made with size, weight positioning, or the whisper-gray recession — never with hue.", "section": "colors" },
+      { "name": "The One Ink Rule", "body": "There is no accent color anywhere in the system. Every visual distinction is made with size, weight positioning, or the whisper-gray recession — never with hue. The sole exception is the Lightbox's scrim, which opts out of the light/dark pairing entirely for one isolated surface rather than adding a hue.", "section": "colors" },
       { "name": "The No-Weight Rule", "body": "Nothing on the site is bold. Hierarchy comes from size and color (ink vs. whisper) only.", "section": "typography" },
-      { "name": "The Flat Ground Rule", "body": "No shadows, no radius, no borders, ever. If a future component seems to need depth to read correctly, the fix is spacing or type weight, not a shadow.", "section": "elevation" }
+      { "name": "The Flat Ground Rule", "body": "No shadows, no radius, no borders, ever. If a future component seems to need depth to read correctly, the fix is spacing or type weight, not a shadow.", "section": "elevation" },
+      { "name": "The One Partial Rule", "body": "Site-wide navigation lives in exactly one file (partials/site-nav.blade.php), included by reference everywhere it's needed. If a page needs a different link set, that's an information-architecture change, not a reason to fork the partial.", "section": "components" },
+      { "name": "The One Shell Rule", "body": "Every page uses the same 900px outer container. A page may narrow its own content further for reading measure (max-w-64ch) but the shell itself is never resized per page.", "section": "layout" }
     ],
     "dos": [
-      "Do keep every new page to a single centered column at one of the four established container widths (480/640/900/1100px).",
+      "Do keep every new page inside the single 900px shell — never introduce a page-specific outer width.",
       "Do use whisper gray (#8a8a86) for any secondary/metadata text (dates, captions, counts) — never for primary content or links.",
       "Do use hover:underline hover:underline-offset-4 as the only interactive-state treatment for links.",
       "Do use viewport-relative vertical padding (vh units) for page-level rhythm rather than fixed px page margins."
@@ -82,7 +108,8 @@
       "Don't add a shadow, border, or border-radius anywhere — The Flat Ground Rule is absolute.",
       "Don't introduce a second typeface, a bold weight, or an accent color — The One Ink Rule and The No-Weight Rule are absolute.",
       "Don't add card containers, chips, badges, or icon systems — the system has no container components at all, only text and images.",
-      "Don't add a persistent header/nav bar without deciding explicitly that The Quiet Page's no-chrome stance is being revised — it isn't a gap to silently fill."
+      "Don't add a persistent header/nav bar without deciding explicitly that The Quiet Page's no-chrome stance is being revised — it isn't a gap to silently fill.",
+      "Don't give a page its own outer container width — The One Shell Rule is absolute; narrow an inner reading column instead."
     ]
   }
 }

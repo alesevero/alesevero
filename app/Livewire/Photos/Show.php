@@ -14,7 +14,7 @@ class Show extends Component
     public ?string $description;
 
     /**
-     * @var array<int, array{image: string, alt: ?string, caption: ?string}>
+     * @var array<int, array{image: string, url: string, alt: ?string, caption: ?string}>
      */
     public array $photos;
 
@@ -27,7 +27,7 @@ class Show extends Component
         $this->title = $project->title;
         $this->description = $project->description;
         $this->photos = array_map(
-            fn ($p): array => ['image' => $p->image, 'alt' => $p->alt, 'caption' => $p->caption],
+            fn ($p): array => ['image' => $p->image, 'url' => asset($p->image), 'alt' => $p->alt, 'caption' => $p->caption],
             $project->photos,
         );
     }

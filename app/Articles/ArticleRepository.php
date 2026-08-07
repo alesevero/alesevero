@@ -16,7 +16,7 @@ class ArticleRepository
     {
         // Cache plain arrays, not Article objects: readonly properties can't survive
         // the default unserialize() (it bypasses the constructor), which corrupts the object.
-        $rows = cache()->remember('articles.all', now()->addMinutes(5), function (): array {
+        $rows = cache()->remember('articles.all', now()->addDay(), function (): array {
             $files = glob(config('content.articles_path').'/*.md') ?: [];
 
             $articles = array_map($this->parse(...), $files);

@@ -16,7 +16,7 @@ class ProjectRepository
     {
         // Cache plain arrays, not Project objects: readonly properties can't survive
         // the default unserialize() (it bypasses the constructor), which corrupts the object.
-        $rows = cache()->remember('photos.projects', now()->addMinutes(5), function (): array {
+        $rows = cache()->remember('photos.projects', now()->addDay(), function (): array {
             $files = glob(config('content.photos_path').'/*.yaml') ?: [];
 
             $projects = array_map($this->parse(...), $files);

@@ -43,10 +43,8 @@ rounded:
 spacing:
   section-y: "12vh"
   section-y-lg: "20vh"
-  container-sm: "480px"
-  container-md: "640px"
-  container-lg: "900px"
-  container-xl: "1100px"
+  shell: "900px"
+  reading-measure: "64ch"
 components:
   link-inline:
     textColor: "{colors.ink}"
@@ -81,7 +79,7 @@ The palette is two near-monochrome pairs (light/dark) plus one muted gray — no
 - **Whisper gray** (`#8a8a86`, same value in both themes): secondary text only — dates, captions, excerpts. Never used for anything a visitor needs to act on; its whole job is to recede so ink stays the only full-contrast text on the page.
 
 ### Named Rules
-**The One Ink Rule.** There is no accent color anywhere in the system. Every visual distinction (link vs. text, heading vs. body) is made with size, weight positioning, or the whisper-gray recession — never with hue.
+**The One Ink Rule.** There is no accent color anywhere in the system. Every visual distinction (link vs. text, heading vs. body) is made with size, weight positioning, or the whisper-gray recession — never with hue. The sole exception is the photo Lightbox's scrim (see Components), which is deliberately theme-independent rather than an accent color — it doesn't add a hue, it opts out of the light/dark pairing entirely for one isolated, self-contained surface.
 
 ## Typography
 
@@ -92,7 +90,7 @@ The palette is two near-monochrome pairs (light/dark) plus one muted gray — no
 ### Hierarchy
 - **Intro** (400, 28px, 1.6 line-height, max 24ch): the opening line on the homepage — name plus the inline links to Writing/Photos/About.
 - **Title** (400, 30px, 1.2 line-height): article `<h1>` on a Writing show page.
-- **List item** (400, 22px, 1.4 line-height): every list row — homepage recent-articles list, Writing index, Photos captions use a smaller label size instead.
+- **List item** (400, 22px, 1.4 line-height): every list row — homepage feed, Writing index, Photos captions use a smaller label size instead.
 - **Body** (400, 18px, 1.8 line-height, ~64ch max width): article body copy and the About page paragraph. Wide line-height carries the "quiet reading" feel.
 - **Label** (400, 14px, 1.4 line-height): dates, excerpts, captions — always rendered in whisper gray, never ink.
 
@@ -101,7 +99,12 @@ The palette is two near-monochrome pairs (light/dark) plus one muted gray — no
 
 ## Layout
 
-Single centered column per page, no sidebar, no multi-column grid except the photo index. Containers are Tailwind arbitrary max-widths chosen per page's content, not a shared grid system: `640px` (About, article show — optimized for reading measure), `900px` (Home, Writing index), `1100px` (Photos index, wider to hold the 2–3 column image grid). Horizontal padding is `px-6` to `px-12` depending on container.
+Single centered column per page, no sidebar. Every page shares one outer shell — `max-w-[900px] mx-auto px-6 sm:px-12 py-[12vh]` — so the site-nav partial and page edges never shift width when navigating between pages. This replaced an earlier per-page-width approach (640/900/1100px) that made the frame jump on every navigation; the shell is now a fixed invariant, not a per-page choice.
+
+Long-form reading content (Article show, About) still caps its own measure at `max-w-[64ch]` — nested *inside* the 900px shell, not a competing page width. This is a reading-comfort constraint on the text column, distinct from the page's outer frame; the nav above it still spans the full shell.
+
+### Named Rules
+**The One Shell Rule.** Every page uses the same `900px` outer container. A page may narrow its own content further for reading measure (`max-w-[64ch]`) or widen an inner element up to the shell's edge, but the shell itself is never resized per page — that's what caused the width-jump this rule replaced.
 
 Vertical rhythm is viewport-relative, not a fixed spacing scale: `py-[12vh]` top/bottom page padding is the standard; the homepage adds `mb-[20vh]` after its intro line and before its footer to keep the page feeling unhurried rather than dense. There is no responsive breakpoint tier beyond the photo grid's `sm:grid-cols-3` (2 columns below `sm`, 3 above) — text columns reflow naturally at their max-width and need no explicit mobile treatment.
 
@@ -123,27 +126,43 @@ No radius anywhere (`rounded: none` — effectively `0px` on every element, incl
 - **Hover / Focus:** `hover:underline hover:underline-offset-4`. No color change, no background, no transform — underline is the entire affordance.
 - **External links** (`target="_blank" rel="noopener"`): visually identical to internal links; the destination is not signaled by icon or color, only by context (excerpt text, or landing outside the site).
 
-### Lists (articles, homepage preview)
+### Lists (Writing index, homepage feed)
 - **Style:** `list-none`, vertical `space-y-6`, no dividers, no bullets, no numbering.
-- **Row:** a list-item-sized link, optionally followed by a whisper-gray excerpt inline on the same line (`— {excerpt}`).
+- **Row:** a list-item-sized link, optionally followed by a whisper-gray secondary line inline on the same line (`— {meta}`).
+- **Homepage feed:** merges published articles and photo projects into one reverse-chronological list — not articles-only. Each row is a link to the article or project, followed by a whisper-gray secondary line: a plain-text type tag ("Writing" or "Photography" — text, never a colored chip or icon, per The Flat Ground / no-badges rule) and, middot-separated, the article's excerpt or the project's photo count ("Photography · 4 photos").
+
+### Work entry (`/work`)
+Two independent sections, Work then Products, each its own heading (list-item size, 22px, no underline — it's a label, not a link) and its own list using the same `list-none space-y-6` rhythm as the Lists component above, with a two-line row instead of one: name (+ role, whisper-gray, inline) on the first line, description + date range (whisper-gray, middot-separated) on the second. Dates render as month + year ("June 2023"), not a bare year. An ongoing entry (`end: null`) reads "June 2023–present"; a finished one reads "June 2023–March 2024". Each section gets its own independent "Nothing here yet." empty state — one section having entries doesn't imply the other must.
 
 ### Photo grid
 Photography is organized as projects, not a flat photo stream: `/photos` lists projects, `/photos/{slug}` shows one project's photos. Both levels reuse the same grid.
 - **Style:** CSS grid, 2 columns under `sm`, 3 at `sm` and above, `gap-4` (index uses `gap-y-10` for the extra title/count line under each cover). Each tile is a full-bleed `<a>` wrapping an `aspect-[4/5] object-cover` image with an optional whisper-gray caption or title below it.
 - **Project card** (index): cover image, then title at list-item size (22px) that underlines on hover, then a whisper-gray "N photos" count below it.
-- **Photo tile** (project show page): cover image, then an optional whisper-gray caption; clicking opens the full image directly (`target="_blank"`), same as the old flat grid.
+- **Photo tile** (project show page): cover image, then an optional whisper-gray caption; clicking opens the photo in the in-page lightbox (see Signature Component below) rather than navigating away.
 - **Hover:** caption/title text shifts from whisper gray to inherited (full ink) color, or gains an underline — the only feedback in the system, never a color change on the image itself.
 - **Empty state:** a single whisper-gray "Nothing here yet." line, no illustration or placeholder graphic.
 
-### Navigation
-There is no persistent nav bar or header. Navigation is three inline text links embedded in the homepage's intro sentence (Writing / Photographs / About); most pages have no way back except the browser's back button or re-visiting `/`. This is a deliberate consequence of The Flat Ground / Quiet Page rules, not an oversight.
+### Lightbox (signature component)
+Clicking any photo tile on a project page opens it full-screen in an Alpine-powered overlay — the exhibition viewing experience, not a new tab. This is the one place in the system that departs from the light/dark theme pairing on purpose: the scrim is always near-black (`#0a0a0a` at 95% opacity) regardless of site theme, because the metaphor is a gallery wall under low light, not a themed surface. Everything else about it stays inside the established vocabulary — no icon library, no shadow, no radius.
+- **Open/close:** click a tile, `Escape`, click the backdrop, or the "Close" text control (top-right, whisper gray, brightens on hover) all close it. One authored transition: 200ms opacity fade, disabled site-wide under `prefers-reduced-motion: reduce`.
+- **Image:** centered, `object-contain` (never cropped, unlike the grid tiles), capped at `78vh` / `90vw`.
+- **Caption + position:** a caption line in `#EDEDEC` (full contrast against the dark scrim, not whisper gray — this is the one surface where the caption *is* primary content) and a small "N / total" counter beneath it in whisper gray.
+- **Prev / Next:** plain text controls (`← Prev`, `Next →`) below the image, same glyph-plus-word idiom as the back links — never a bare arrow icon. Hidden entirely when the project has only one photo. Also reachable via `←`/`→` keys.
 
-**Confirmed exception:** any page one level below an index that a visitor might browse in sequence carries a single plain-text back link (whisper gray, brightens/underlines on hover, positioned above the page's own title) to its parent list — a nav bar or breadcrumb was never introduced, just this one inline link. In use on the Photos project page (`← Photographs`) and the Writing article page (`← Writing`). Index pages themselves (`/writing`, `/photos`, `/about`) stay without one, reachable only from the homepage's intro sentence, same as before.
+### Navigation
+There is still no persistent nav bar, header, or breadcrumb component — no box, no background, no border, no sticky positioning, ever. What exists instead is a single reusable partial (`resources/views/partials/site-nav.blade.php`), included at the top of *every* page including Home: `Alexandre Severo · Writing · Photographs · About`, four plain inline links separated by a whisper-gray middot, in the exact type/link style used everywhere else in the system. It scrolls away with the page like any other line of text; it is not fixed, not elevated, not boxed.
+
+Home's intro sentence used to carry its own copy of these links in narrative form ("Writing, photographs, about."). Once the site-nav partial covered every page, that became a duplicate — the intro is now pure identity prose ("Alexandre Severo. I write, and I take photographs.") with no embedded links, and the nav above it is the single place navigation lives.
+
+**Superseded:** the earlier per-page "← parent" back link (used briefly on the Photos project page and the Writing article page) is retired — the site-nav partial supersedes it with full cross-site navigation from every page, not just one level up.
+
+### Named Rules
+**The One Partial Rule.** Site-wide navigation lives in exactly one file (`partials/site-nav.blade.php`), included by reference everywhere it's needed. If a page needs a different link set, that's a sign the page's information architecture changed, not a reason to fork the partial.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep every new page to a single centered column at one of the four established container widths (480/640/900/1100px).
+- **Do** keep every new page inside the single 900px shell — never introduce a page-specific outer width.
 - **Do** use whisper gray (`#8a8a86`) for any secondary/metadata text (dates, captions, counts) — never for primary content or links.
 - **Do** use `hover:underline hover:underline-offset-4` as the only interactive-state treatment for links.
 - **Do** use viewport-relative vertical padding (`vh` units) for page-level rhythm rather than fixed px page margins.
@@ -153,3 +172,4 @@ There is no persistent nav bar or header. Navigation is three inline text links 
 - **Don't** introduce a second typeface, a bold weight, or an accent color — The One Ink Rule and The No-Weight Rule are absolute.
 - **Don't** add card containers, chips, badges, or icon systems — the system has no container components at all, only text and images.
 - **Don't** add a persistent header/nav bar without deciding explicitly that The Quiet Page's no-chrome stance is being revised — it isn't a gap to silently fill.
+- **Don't** give a page its own outer container width — The One Shell Rule is absolute; narrow an inner reading column instead.
