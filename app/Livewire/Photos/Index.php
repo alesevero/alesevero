@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Photos;
 
-use App\Photos\PhotoRepository;
+use App\Photos\ProjectRepository;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -14,7 +14,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.photos.index', [
-            'photos' => app(PhotoRepository::class)->all(),
+            'projects' => app(ProjectRepository::class)->all(),
         ]);
     }
 }

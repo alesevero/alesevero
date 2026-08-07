@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-06T00:00:00Z",
+  "title": "Design System: alesevero",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "primary", "displayName": "Paper", "canonical": "#FDFDFC", "tonalRamp": ["#0a0a0a", "#1b1b18", "#3a3a36", "#5c5c57", "#8a8a86", "#c4c4c0", "#e6e6e2", "#FDFDFC"] },
+      "ink": { "role": "primary", "displayName": "Ink", "canonical": "#1b1b18", "tonalRamp": ["#1b1b18", "#33332f", "#4d4d48", "#666661", "#8a8a86", "#b3b3ae", "#dcdcd8", "#EDEDEC"] },
+      "paper-dark": { "role": "primary", "displayName": "Paper (dark theme)", "canonical": "#0a0a0a", "tonalRamp": ["#0a0a0a", "#1b1b18", "#3a3a36", "#5c5c57", "#8a8a86", "#c4c4c0", "#e6e6e2", "#EDEDEC"] },
+      "ink-dark": { "role": "primary", "displayName": "Ink (dark theme)", "canonical": "#EDEDEC", "tonalRamp": ["#1b1b18", "#33332f", "#4d4d48", "#666661", "#8a8a86", "#b3b3ae", "#dcdcd8", "#EDEDEC"] },
+      "whisper": { "role": "neutral", "displayName": "Whisper Gray", "canonical": "#8a8a86", "tonalRamp": ["#1b1b18", "#3a3a36", "#5c5c57", "#727270", "#8a8a86", "#a3a39f", "#c4c4c0", "#e6e6e2"] }
+    },
+    "typographyMeta": {
+      "intro": { "displayName": "Intro", "purpose": "Homepage opening line only — name plus the three section links." },
+      "title": { "displayName": "Title", "purpose": "Article show-page h1." },
+      "list-item": { "displayName": "List Item", "purpose": "Every list row: homepage recent list, Writing index rows." },
+      "body": { "displayName": "Body", "purpose": "Article body copy, About page paragraph." },
+      "label": { "displayName": "Label", "purpose": "Dates, excerpts, captions — always whisper gray." }
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Inline Link",
+      "kind": "custom",
+      "refersTo": "link-inline",
+      "description": "The only interactive primitive in the system. Plain ink text, underline appears only on hover/focus.",
+      "html": "<a href=\"#\" class=\"ds-link\">Writing</a>",
+      "css": ".ds-link { color: #1b1b18; text-decoration: none; } .ds-link:hover, .ds-link:focus-visible { text-decoration: underline; text-underline-offset: 4px; } .ds-link:focus-visible { outline: 2px solid #1b1b18; outline-offset: 2px; }"
+    },
+    {
+      "name": "Article List Row",
+      "kind": "custom",
+      "refersTo": "list-item",
+      "description": "One row in the homepage recent-articles list or the Writing index. Title link plus an optional inline whisper-gray excerpt.",
+      "html": "<li class=\"ds-list-row\"><a href=\"#\" class=\"ds-link\">On leaving a job I was good at</a><span class=\"ds-excerpt\"> — Notes on quitting well.</span></li>",
+      "css": ".ds-list-row { list-style: none; font-size: 22px; line-height: 1.4; } .ds-excerpt { color: #8a8a86; font-size: 16px; margin-left: 12px; }"
+    },
+    {
+      "name": "Photo Grid Tile",
+      "kind": "card",
+      "refersTo": "photo-tile",
+      "description": "One tile in a project's photo grid (/photos/{slug}): full-bleed cropped image, optional whisper-gray caption that brightens to ink on hover, links straight to the full image.",
+      "html": "<a href=\"#\" class=\"ds-photo-tile\"><img class=\"ds-photo-img\" src=\"\" alt=\"\" /><p class=\"ds-photo-caption\">Lisbon, July</p></a>",
+      "css": ".ds-photo-tile { display: block; text-decoration: none; } .ds-photo-img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 0; } .ds-photo-caption { margin-top: 8px; font-size: 14px; color: #8a8a86; transition: color 0.15s; } .ds-photo-tile:hover .ds-photo-caption { color: #1b1b18; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "project-card",
+      "description": "One card in the Photos index (/photos): cover image, title that underlines on hover, and a whisper-gray photo count below it. Links to the project's own page.",
+      "html": "<a href=\"#\" class=\"ds-project-card\"><img class=\"ds-project-cover\" src=\"\" alt=\"\" /><p class=\"ds-project-title\">Lisbon</p><p class=\"ds-project-count\">4 photos</p></a>",
+      "css": ".ds-project-card { display: block; text-decoration: none; color: #1b1b18; } .ds-project-cover { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 0; } .ds-project-title { margin-top: 8px; font-size: 22px; } .ds-project-card:hover .ds-project-title { text-decoration: underline; text-underline-offset: 4px; } .ds-project-count { font-size: 14px; color: #8a8a86; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Page",
+    "overview": "Plain text on plain ground; the words are the only thing performing. There is no navbar, no card, no button styling, no icon system — a page is a max-width column of text with generous top-of-viewport air (12vh–20vh vertical padding) and a handful of underlined inline links. The system exists to disappear: nothing here should read as \"designed\" in the sense of decorated. Confirmed rejections: no serif display face (an earlier design pass explored Georgia/slab serif treatments — the shipped system is plain Instrument Sans throughout, sans-serif only), no accent color, no chrome of any kind (no header bar, no card borders, no button backgrounds).",
+    "keyCharacteristics": [
+      "One typeface (Instrument Sans) at five sizes, no serif, no display face",
+      "Two-color palette per theme (ink/paper) plus one whisper gray for secondary text",
+      "Zero elevation, zero radius — completely flat",
+      "Layout is a single centered column; width and vertical rhythm carry all the hierarchy",
+      "Links are the only interactive affordance: plain text, underline only on hover/focus"
+    ],
+    "rules": [
+      { "name": "The One Ink Rule", "body": "There is no accent color anywhere in the system. Every visual distinction is made with size, weight positioning, or the whisper-gray recession — never with hue.", "section": "colors" },
+      { "name": "The No-Weight Rule", "body": "Nothing on the site is bold. Hierarchy comes from size and color (ink vs. whisper) only.", "section": "typography" },
+      { "name": "The Flat Ground Rule", "body": "No shadows, no radius, no borders, ever. If a future component seems to need depth to read correctly, the fix is spacing or type weight, not a shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep every new page to a single centered column at one of the four established container widths (480/640/900/1100px).",
+      "Do use whisper gray (#8a8a86) for any secondary/metadata text (dates, captions, counts) — never for primary content or links.",
+      "Do use hover:underline hover:underline-offset-4 as the only interactive-state treatment for links.",
+      "Do use viewport-relative vertical padding (vh units) for page-level rhythm rather than fixed px page margins."
+    ],
+    "donts": [
+      "Don't add a shadow, border, or border-radius anywhere — The Flat Ground Rule is absolute.",
+      "Don't introduce a second typeface, a bold weight, or an accent color — The One Ink Rule and The No-Weight Rule are absolute.",
+      "Don't add card containers, chips, badges, or icon systems — the system has no container components at all, only text and images.",
+      "Don't add a persistent header/nav bar without deciding explicitly that The Quiet Page's no-chrome stance is being revised — it isn't a gap to silently fill."
+    ]
+  }
+}

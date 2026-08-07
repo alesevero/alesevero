@@ -63,6 +63,15 @@ test('show 404s for an external article slug', function () {
         ->assertNotFound();
 });
 
-test('index shows nothing when there are no articles', function () {
-    $this->get(route('articles.index'))->assertOk();
+test('index shows an empty state when there are no articles', function () {
+    $this->get(route('articles.index'))
+        ->assertOk()
+        ->assertSee('Nothing published yet.');
+});
+
+test('show links back to the writing index', function () {
+    writeArticle($this->articlesPath, 'hello', "title: Hello\ndate: 2026-06-01");
+
+    $this->get(route('articles.show', 'hello'))
+        ->assertSee(route('articles.index'), false);
 });

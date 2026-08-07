@@ -1,5 +1,5 @@
 {{-- Edit the bio line below directly — no real content wired in yet. --}}
-<div class="mx-auto min-h-screen max-w-[900px] px-12 py-[12vh]">
+<div class="mx-auto min-h-screen max-w-[900px] px-6 py-[12vh] sm:px-12">
     <p class="mb-[20vh] max-w-[24ch] text-[28px] leading-[1.6] text-wrap-balance">
         Alexandre Severo. I write, and I take photographs.
         <a href="{{ route('articles.index') }}" class="hover:underline hover:underline-offset-4" wire:navigate>Writing</a>,
@@ -23,8 +23,10 @@
                 </li>
             @endforeach
         </ul>
+    @else
+        <p class="text-lg text-[#8a8a86]">Nothing published yet.</p>
     @endif
 
     {{-- Edit the address below, or remove it. --}}
-    <footer class="mt-[20vh] text-[15px] text-[#8a8a86]">alexandre@severo.dev</footer>
+    <footer class="mt-[10vh] text-[15px] text-[#8a8a86]">alexandre@severo.dev</footer>
 </div>

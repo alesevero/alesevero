@@ -2,12 +2,9 @@
 
 namespace App\Photos;
 
-final readonly class Photo
+final readonly class PhotoImage
 {
     public function __construct(
-        public string $title,
-        public \DateTimeImmutable $date,
-        public string $slug,
         public string $image,
         public ?string $alt = null,
         public ?string $caption = null,
