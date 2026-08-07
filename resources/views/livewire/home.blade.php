@@ -31,7 +31,4 @@
     @else
         <p class="text-lg text-[#8a8a86]">Nothing published yet.</p>
     @endif
-
-    {{-- Edit the address below, or remove it. --}}
-    <footer class="mt-[10vh] text-[15px] text-[#8a8a86]">alexandre@severo.dev</footer>
 </div>
