@@ -3,7 +3,7 @@
     @include('partials.site-nav')
 
     <p class="text-wrap-balance mb-[20vh] max-w-[24ch] text-[28px] leading-[1.6]">
-        Alexandre Severo. I code, I write, and I take photographs.
+        I code, I write, and I take photographs.
     </p>
 
     @if (! empty($feed))
