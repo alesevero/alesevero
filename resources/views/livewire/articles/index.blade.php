@@ -2,7 +2,11 @@
     @include('partials.site-nav')
 
     <main>
-        <h1 class="mb-10 text-[28px] leading-[1.6] font-normal">Writing</h1>
+        <h1 class="mb-6 text-[28px] leading-[1.6] font-normal">Writing</h1>
+
+        <p class="mb-10 max-w-[64ch] text-lg leading-[1.8] text-[#8a8a86]">
+            Some of it lives here; some of it lives elsewhere.
+        </p>
 
         @if (empty($articles))
             <p class="text-lg text-[#8a8a86]">Nothing published yet.</p>
