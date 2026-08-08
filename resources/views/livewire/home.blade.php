@@ -1,9 +1,8 @@
-{{-- Edit the bio line below directly — no real content wired in yet. --}}
 <div class="mx-auto min-h-screen max-w-[900px] px-6 py-[12vh] sm:px-12">
     @include('partials.site-nav')
 
     <p class="text-wrap-balance mb-[20vh] max-w-[24ch] text-[28px] leading-[1.6]">
-        I code, I write, and I take photographs.
+        Senior software engineer at Musora. I run Sunup Studios, write, and take photographs on the side.
     </p>
 
     @if (! empty($feed))

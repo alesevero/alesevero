@@ -4,7 +4,7 @@
     <div class="[&_p]:mb-6 max-w-[64ch] text-lg leading-[1.8]">
         <p>I make things.</p>
         <p>
-            Sometimes they're backend systems, APIs, and software architectures. Sometimes they're photographs, visual
+            Sometimes they're software systems, APIs, and software architectures. Sometimes they're photographs, visual
             experiments, or ideas scribbled somewhere before they disappear.
         </p>
         <p>

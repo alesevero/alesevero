@@ -1,7 +1,7 @@
 # One list, one entry per job. Add a new one by adding another "- name: ..." item.
 # `primary: true` pins an entry to the top regardless of date — the main gig.
 - name: Musora
-  role: Senior Backend Engineer
+  role: Senior Software Engineer
   description: Working with crazy-talented folks on the future of music education.
   url: https://musora.com
   start: 2023-06-05

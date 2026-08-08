@@ -5,7 +5,7 @@
         <p>Most of my work starts with the same question:</p>
         <p>Can this be simpler?</p>
         <p>
-            At <a href="https://musora.com" target="_blank" rel="noopener">Musora</a>, I work as a Senior Backend
+            At <a href="https://musora.com" target="_blank" rel="noopener">Musora</a>, I work as a Senior Software
             Engineer building and shaping the systems behind online music education — from backend architecture to the
             engineering practices around it.
         </p>
